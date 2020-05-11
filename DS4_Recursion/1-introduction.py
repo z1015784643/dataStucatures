@@ -79,9 +79,7 @@ print(the_list([1,2,3,4,5,6,7]))
 # print(to_str(769,16))
 
 from pythonds.basic.stack import Stack
-
 s = Stack()
-
 def to_str(num,base):
     str = '0123456789ABCDEF'
     while num > 0 :
@@ -96,7 +94,9 @@ def to_str(num,base):
         result = result + s.pop()
     return result
 
-print(to_str(8,16))
+n = int(input('请输入数字：'))
+j = int(input('请输入要转换的进制数：'))
+print(to_str(n,j))
 
 
 
