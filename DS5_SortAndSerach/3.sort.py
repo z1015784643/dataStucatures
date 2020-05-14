@@ -1,4 +1,33 @@
 '''
+力扣第912题，
+冒泡排序法：
+def bubbleSort(alist):
+    for passnum in range(len(nums)-1,0,-1):
+        for i in range(passnum):
+            if nums[i] > nums[i+1]:
+                temp = nums[i]
+                nums[i] = nums[i+1]
+                nums[i+1] = temp
+nums = [5,2,3,1]
+bubbleSort(nums)
+print(nums)
+
+#选择排序
+def seletcSort(alist):
+    for fillslot in range(len(nums)-1,0,-1):
+        positionMax = 0
+        for location in range(1,fillslot+1):
+            if nums[location] > nums[positionMax]:
+                positionMax = location
+        temp = nums[fillslot]
+        nums[fillslot] = nums[positionMax]
+        nums[positionMax] = temp
+
+nums = [5,2,3,1,0]
+seletcSort(nums)
+print(nums)
+
+
 [54, 26, 93, 17, 77, 31, 44, 55, 20]
 一、冒泡排序: 对一个列表多次遍历，比较相邻的两项，并且交换顺序排错的项。
 每对列表进行一次遍历，就有一个最大项排在了正确的位置，大体上讲，
@@ -47,9 +76,7 @@
 # bubbleSort(alist)
 # print(alist)
 # 假设输入的是一个已经排好序的列表  [17, 20, 26, 31, 44, 54, 55, 77, 93]
-# 如果列表整个排序过程没有交换，说明列表已经完成了排序，因此可以通过判断有没有发生交换，改良冒泡排序
-# 改良完了之后，就是：短路冒泡排序
-# 实现短路冒泡排序
+# 如果列表整个排序过程没有交换，说明列表已经完成了排序，因此可以通过判断有没有发生交换，改良冒泡排序改良完了之后，就是：短路冒泡排序实现短路冒泡排序
 def shortBubbleSort(alist):
     exchange = True
     passnum = len(alist) - 1
@@ -73,26 +100,14 @@ print(alist)
 二、选择排序：每遍历一次列表只交换一次数据，也就是进行一次遍历时找到最大的项
 完成遍历后，再把它换到正确的位置
 alist = [26, 54, 93, 17, 77, 31, 44, 55, 20]
-第1次遍历[26, 54, 20, 17, 77, 31, 44, 55, 93]
-93
-第2次遍历[26, 54, 20, 17, 55, 31, 44, 77, 93]
-77
-第3次遍历[26, 54, 20, 17, 44, 31, 55, 77, 93]
-55
-第4次遍历[26, 31, 20, 17, 44, 54, 55, 77, 93]
-54
-第5次遍历[26, 31, 20, 17, 44, 54, 55, 77, 93]
-44
-第6次遍历[26, 31, 20, 17, 44, 54, 55, 77, 93]
-31
-第7次遍历[20, 17, 26, 31, 44, 54, 55, 77, 93]
-26
-第8次遍历[17, 20, 26, 31, 44, 54, 55, 77, 93]
-20
-
-
-'''
-
+第1次遍历[26, 54, 20, 17, 77, 31, 44, 55, 93]  93
+第2次遍历[26, 54, 20, 17, 55, 31, 44, 77, 93]  77
+第3次遍历[26, 54, 20, 17, 44, 31, 55, 77, 93]  55
+第4次遍历[26, 31, 20, 17, 44, 54, 55, 77, 93]  54
+第5次遍历[26, 31, 20, 17, 44, 54, 55, 77, 93]  44
+第6次遍历[26, 31, 20, 17, 44, 54, 55, 77, 93]  31
+第7次遍历[20, 17, 26, 31, 44, 54, 55, 77, 93]  26
+第8次遍历[17, 20, 26, 31, 44, 54, 55, 77, 93]  20
 
 def seletcSort(alist):
     for fillslot in range(len(alist)-1,0,-1):
@@ -109,3 +124,26 @@ def seletcSort(alist):
 alist = [26,54,93,17,77,31,44,55,20]
 seletcSort(alist)
 print(alist)
+'''
+
+'''
+    三、插入排序：总是会保持一个位置靠前的已经拍好的字表[54]，[26,93,17,77,31,44,55,20]，然后每一个新的数据项被“插入”到前面的字表中，拍好的第一个字表就增加了一项，
+    alist = [54,26,93,17,77,31,44,55,20]
+    分成两个字表[54],[26,93,17,77,31,44,55,20]，取出字表的数据一一和另一个字表进行比较，然后插入数据。
+    第一步 [26,54]    [93,17,77,31,44,55,20],取出26比较，然后插入
+    第二步 [26,54,93]    [17,77,31,44,55,20],取出93比较，然后插入
+'''
+def insertSort(alist):
+    for index in range(1,len(alist)):
+        currentValue = alist[index]
+        position = index
+        while position > 0 and alist[position-1] > currentValue:
+            alist[position] = alist[position-1]
+            position = position-1
+            alist[position] = currentValue
+alist = [54,26,93,17,77,31,44,55,20]
+insertSort(alist)
+print(alist)
+
+
+
