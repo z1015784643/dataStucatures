@@ -201,7 +201,7 @@ print(alist)
 2.     [17,26,54,93]                  [20,44,55]
 3.                             [20,31,44,55,77]
 4.              [17,20,26,31,44,54,55,77,93]
-'''
+
 def mergeSort(alist):
     if len(alist) > 1:
         mid = len(alist)//2
@@ -234,7 +234,7 @@ def mergeSort(alist):
 alist = [54, 26, 93, 17, 77, 31, 44, 55, 20]
 mergeSort(alist)
 print(alist)
-
+'''
 
 
 '''
@@ -249,8 +249,51 @@ print(alist)
     首先增加左标记，直到找到一个大于枢纽值的值停止，然后递减右标记，直到找到一个小于枢纽值的值停止，交换这两项。
 
 '''
+def quickSort(alist):
+    quickSortHelper(alist,0,len(alist)-1)
 
+def quickSortHelper(alist,first,last):
+    if first < last:
+        splitpoint = partition(alist,first,last)
 
+        quickSortHelper(alist,first,splitpoint-1)
+        quickSortHelper(alist,splitpoint+1,last)
+# def quickSort(alist):
+#     quickSortHelper(alist,0,len(alist)-1)
+#
+# def quickSortHelper(alist,first,last):
+#     if first < last:
+#         splitpoint = partition(alist,first,last)
+#         quickSortHelper(alist,first,splitpoint-1)
+#         quickSortHelper(alist,splitpoint+1,last)
+
+def partition(alist,first,last):
+    pivotvalue = alist[first]
+
+    leftmark = first + 1
+    rightmark = last
+    done = False
+    while not done:
+        while leftmark <= rightmark and alist[leftmark] <= pivotvalue:
+            leftmark = leftmark + 1
+        while alist[rightmark] >= pivotvalue and rightmark >= leftmark:
+            rightmark = rightmark - 1
+        if rightmark < leftmark:
+            done = True
+        else:
+            temp = alist[leftmark]
+            alist[leftmark] = alist[rightmark]
+            alist[rightmark] = temp
+
+    temp = alist[first]
+    alist[first] = alist[rightmark]
+    alist[rightmark] = temp
+    return rightmark
+
+alist = [54,26,93,17,77,31,44,55,20]
+# partition(alist,0,len(alist)-1)
+quickSort(alist)
+print(alist)
 
 
 
