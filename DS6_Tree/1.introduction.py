@@ -28,14 +28,14 @@
     1.列表表示
     2.节点表示：（抽象ADT）：使用节点和引用，定义一个具有根植属性的类和左子树，右子树。
 
-'''
+
 
 class BinaryTree:
     def __init__(self,rootObj):
         self.key = rootObj
         self.leftChild = None
         self.rightChild = None
-    def insertLift(self,newNode):
+    def insertLeft(self,newNode):
         if self.leftChild == None:
             self.leftChild = BinaryTree(newNode)
         else:
@@ -43,6 +43,112 @@ class BinaryTree:
             temp.leftChild = self.leftChild
             self.leftChild = temp
 
+    def insertRight(self,newNode):
+        if self.rightChild == None:
+            self.rightChild = BinaryTree(newNode)
+        else:
+            temp = BinaryTree(newNode)
+            temp.rightChild = self.rightChild
+            self.rightChild = temp
+
+    def getRightChild(self):
+        return self.rightChild
+
+    def getLeftChild(self):
+        return self.leftChild
+
+    def setRootVal(self,obj):
+        self.key = obj
+
+    def getRootVal(self):
+        return self.key
+
+r = BinaryTree('a')
+print(r.getRootVal())
+print(r.getLeftChild())
+r.insertLeft('b')
+print(r.getLeftChild())
+print(r.getLeftChild().getRootVal())
+
+'''
+'''
+四、分析树（使用树数据结构解决问题：字符串和数学计算问题）
+
+( (7+3) * (5-2) )
+
+分析：根节点，左子树，右子树
+
+第一步：把表达式字符串拆分成符号列表。四种：左括号，右括号，运算符，操作数，
+    读到一个左括号：开始一个新的表达式，树对应表达式的话，此时应当创建一个新的数
+    读到一个右括号：结束一个表达式。
+    操作数是叶子节点，同时也是操作符的子节点
+    每一个操作符都有一个左，右孩子
+第二步：根据第一步的分析，定义规则。
+    如果当前符号是“(“，添加一个新的节点作为当前节点的左子节点，并且下降到左子节点。
+    如果当前符号是列表['+','-','*','/']中，将当前节点的根植设置为由当前符号表示的运算符。添加一个新节点作为当前节点的子节点，并下降到右子节点。
+    如果当前符号是数字，则当前节点的根植设置为该数字并返回父节点。
+    如果当前符号是")",则转到当前节点的父节点
+
+
+
+'''
+from pythonds.basic.stack import Stack
+from pythonds.trees.binaryTree import BinaryTree
+
+def buildParseTree(fpexp):
+    fplist = fpexp.split()
+    pStack = Stack()
+    eTree = BinaryTree('')
+    pStack.push(eTree)
+
+    for i in fplist:
+        if i == '(':
+            # 如果当前符号是“(”,添加一个新节点作为当前节点的左子节点，并且下降到左子节点
+            eTree.insertLeft('')
+            pStack.push(eTree)
+            eTree = eTree.getLeftChild()
+        elif i not in ['+', '-', '/', '*', ')']:
+            # 如果当前符号是数字，将当前节点的根值设置为该数字并返回父节点
+            eTree.setRootVal(int(i))
+            parent = pStack.pop()
+            eTree = parent
+        elif i in ['+', '-', '/', '*']:
+            eTree.setRootVal(i)
+            eTree.insertRight('')
+            pStack.push(eTree)
+            eTree = eTree.getRightChild()
+        elif i == ')':
+            eTree = pStack.pop()
+        else:
+            raise ValueError
+
+    return eTree
+
+
+fpexp = "( ( 7 + 3 ) * ( 5 - 2 ) )"
+parseTree = buildParseTree(fpexp)
+# parseTree.postorder()
+
+import operator
+
+def evaluate(parseTree):
+    opers = {
+        '+':operator.add,
+        '-':operator.sub,
+        '*':operator.mul,
+        '/':operator.truediv
+    }
+
+    leftChild = parseTree.getLeftChild()
+    rightChild = parseTree.getRightChild()
+    if leftChild and rightChild:
+        result = opers[parseTree.getRootVal()](evaluate(leftChild), evaluate(rightChild))
+        return result
+    else:
+        return parseTree.getRootVal()
+
+
+print(evaluate(parseTree))
 
 
 
